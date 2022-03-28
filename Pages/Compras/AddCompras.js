@@ -1,19 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 import Repositorio_Compras from './Repositorio_Compras'
 
-export default function AddCompras({ navigation }) {
+export default function AddCompras({ route, navigation }) {
+    const id = route.params ? route.params.id : undefined;
     const [descricao, setDescricao] = useState('');
     const [quantidade, setQuantidade] = useState('');
+
+    useEffect(() => {
+        if(!route.params) return;
+        setDescricao(route.params.descricao);
+        setQuantidade(route.params.quantidade.toString());
+    }, [route])
 
     function handleDescriptionChange(descricao){ setDescricao(descricao); } 
     function handleQuantityChange(quantidade){ setQuantidade(quantidade); }
     async function handleButtonPress(){ 
         try{
             const listItens = {descricao, quantidade: parseInt(quantidade)};
-            Repositorio_Compras.salvarItems(listItens)
+            Repositorio_Compras.salvarItems(listItens, id)
             .then(response => alert("Dados Salvo com sucesso"))
             .then(response => navigation.navigate("ListaCompras", listItens));
         }
@@ -32,13 +39,15 @@ export default function AddCompras({ navigation }) {
                 onChangeText={handleDescriptionChange}
                 style={styles.input} 
                 placeholder="Nome do item"
-                clearButtonMode="always" /> 
+                clearButtonMode="always"
+                value={descricao} /> 
             <TextInput 
                 onChangeText={handleQuantityChange}
                 style={styles.input}  
                 placeholder="Quantidade necessária" 
                 keyboardType={'numeric'}
-                clearButtonMode="always" /> 
+                clearButtonMode="always"
+                value={quantidade} /> 
             <TouchableOpacity style={styles.button} onPress={handleButtonPress}> 
                 <Text style={styles.buttonText}>Salvar</Text> 
             </TouchableOpacity> 
