@@ -1,26 +1,27 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function AddCompras() {
+import Repositorio_Compras from './Repositorio_Compras'
+
+export default function AddCompras({ navigation }) {
     const [descricao, setDescricao] = useState('');
     const [quantidade, setQuantidade] = useState('');
 
     function handleDescriptionChange(descricao){ setDescricao(descricao); } 
     function handleQuantityChange(quantidade){ setQuantidade(quantidade); }
     async function handleButtonPress(){ 
-        const listItens = {id: new Date().getTime, descricao, quantidade: parseInt(quantidade)};
-        let savedItens = [];
-        const response = await AsyncStorage.getItem('itens');
+        try{
+            const listItens = {descricao, quantidade: parseInt(quantidade)};
+            Repositorio_Compras.salvarItems(listItens)
+            .then(response => alert("Dados Salvo com sucesso"))
+            .then(response => navigation.navigate("ListaCompras", listItens));
+        }
+        catch(error){
+            alert("Erro ao salvar item " + error);
+            throw error;
+        }
         
-        if(response) savedItens = JSON.parse(response);
-        savedItens.push(listItens);
-
-        await AsyncStorage.setItem('itens', JSON.stringify(savedItens));
-
-        alert("Itens salvos com Sucesso")
-        // navigation.navigate("ListaCompras");
     }
 
   return (
