@@ -1,7 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
+import Repositorio_Compras from './Repositorio_Compras';
+
 export default function Itens(props){
+    async function handleEditPress(){ 
+        const item = await Repositorio_Compras.getItem(props.id);
+        props.navigation.navigate("AddCompras", item);
+    }
+
     return (
         <View style={styles.container}>
           <Text style={styles.textItem}>{props.item}</Text>
@@ -9,7 +16,7 @@ export default function Itens(props){
             <TouchableOpacity style={styles.deleteButton} > 
                 <Text style={styles.buttonText}>X</Text> 
             </TouchableOpacity> 
-            <TouchableOpacity style={styles.editButton} > 
+            <TouchableOpacity style={styles.editButton} onPress={handleEditPress} > 
                 <Text style={styles.buttonText}>Editar</Text> 
             </TouchableOpacity> 
           </View>

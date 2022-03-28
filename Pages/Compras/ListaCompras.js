@@ -1,18 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+
+import Repositorio_Compras from './Repositorio_Compras';
 
 import Itens from './Itens';
 
-export default function ListaCompras() {
-    const [items, setItems] = useState([
-        {id: 1, quantidade: 5, descricao: "Arroz" }, 
-        {id: 2, quantidade: 1, descricao: "Feijão" }, 
-        {id: 3, quantidade: 1, descricao: "Macarrão" }, 
-        {id: 4, quantidade: 1, descricao: "Massa de Pastel" }, 
-        {id: 5, quantidade: 1, descricao: "Katchup" }, 
-        {id: 6, quantidade: 1, descricao: "Queijo-ralado" }
-    ]);
+export default function ListaCompras({ route, navigation }) {
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+      Repositorio_Compras.getAll().then(items => setItems(items));
+    }, [route]);
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
@@ -21,7 +20,7 @@ export default function ListaCompras() {
             style={styles.scrollContainer}
             contentContainerStyle={styles.itemsContainer}>
                 { items.map(item => {
-                    return <Itens key={item.id} id={item.id} item={item.quantidade + '  de ' + item.descricao} />
+                    return <Itens key={item.id} id={item.id} item={item.descricao + '  = ' + item.quantidade + ' und'} navigation={navigation} />
                 }) }
             </ScrollView>
         </View>
