@@ -29,8 +29,8 @@ function TabCompras() {
             >
                 <Screen name="ListaCompras" component={ListaCompras} 
                     options={{tabBarLabel: "Lista de Compras"}} />
-                <Screen name="AddCompras" component={AddCompras} o
-                    ptions={{tabBarLabel: "Adicionar"}}/>
+                <Screen name="AddCompras" component={AddCompras} 
+                    options={{tabBarLabel: "Adicionar"}}/>
             </Navigator>
         </NavigationContainer>
     );
