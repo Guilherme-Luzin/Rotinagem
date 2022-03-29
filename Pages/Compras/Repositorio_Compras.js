@@ -29,8 +29,16 @@ async function getItem(id){
     return itemsSalvos.find(item => item.id == id);
 }
 
+async function deletarItems(id){
+    let itemsSalvos = await getAll();
+    const index = await itemsSalvos.findIndex(item => item.id == id);
+    itemsSalvos.splice(index, 1);
+    return AsyncStorage.setItem('items', JSON.stringify(itemsSalvos));
+}
+
 module.exports = {
     salvarItems,
     getAll,
-    getItem
+    getItem,
+    deletarItems
 }

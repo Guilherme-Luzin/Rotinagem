@@ -19,7 +19,8 @@ export default function ListaCompras({ route, navigation }) {
             <ScrollView 
             style={styles.scrollContainer}
             contentContainerStyle={styles.itemsContainer}>
-                { items.map(item => {
+                { 
+                  items.map(item => {
                     return <Itens key={item.id} id={item.id} item={item.descricao + '  = ' + item.quantidade + ' und'} navigation={navigation} />
                 }) }
             </ScrollView>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Feather as Icon } from '@expo/vector-icons';
 
 import Repositorio_Compras from './Repositorio_Compras'
 
@@ -48,8 +49,11 @@ export default function AddCompras({ route, navigation }) {
                 keyboardType={'numeric'}
                 clearButtonMode="always"
                 value={quantidade} /> 
-            <TouchableOpacity style={styles.button} onPress={handleButtonPress}> 
-                <Text style={styles.buttonText}>Salvar</Text> 
+            <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
+                <View style={styles.buttonContainer}> 
+                    <Icon name="save" size={22} color="white" />
+                    <Text style={styles.buttonText}>Salvar</Text> 
+                </View>
             </TouchableOpacity> 
         </View>
         <StatusBar style="light" />
@@ -101,8 +105,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 20,
         shadowColor: '#ccc',
     },
-    buttonText: {
+    buttonContainer: {
+        flexDirection: "row"
+      },
+      buttonText: {
+        marginLeft: 10,
+        fontSize: 18,
         color: '#fff',
         fontWeight: 'bold',
-    }
+      }
   });

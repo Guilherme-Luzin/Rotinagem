@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import { Feather as Icon } from '@expo/vector-icons';
 
 import Repositorio_Compras from './Repositorio_Compras';
 
@@ -9,15 +10,38 @@ export default function Itens(props){
         props.navigation.navigate("AddCompras", item);
     }
 
+    function handleDeletePress(){
+        Alert.alert(
+            "Atenção",
+            "Você tem certeza que deseja deletar este item?",
+            [
+                {
+                    text: "Não",
+                    onPress: () => console.log("Cancelado"),
+                    style: "cancel"
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                                    Repositorio_Compras.deletarItems(props.id)
+                                    .then(alert("Item deletado com sucesso"))
+                                    .then(response => props.navigation.navigate("ListaCompras", {id: props.id}));
+                                }
+                }
+            ],
+            { cancelable: false }
+        );
+    }
+
     return (
         <View style={styles.container}>
           <Text style={styles.textItem}>{props.item}</Text>
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.deleteButton} > 
-                <Text style={styles.buttonText}>X</Text> 
+            <TouchableOpacity style={styles.deleteButton} onPress={handleDeletePress} > 
+                <Icon name='trash' color='white' size={18}></Icon> 
             </TouchableOpacity> 
             <TouchableOpacity style={styles.editButton} onPress={handleEditPress} > 
-                <Text style={styles.buttonText}>Editar</Text> 
+                <Icon name='edit' color='white' size={18}></Icon> 
             </TouchableOpacity> 
           </View>
         </View>
@@ -62,10 +86,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 10,
         shadowColor: '#ccc',
         alignItems: 'center'
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
     },
     textItem: {
         fontSize: 20,
