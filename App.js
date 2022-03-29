@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 
-import TabCompras from './Pages/Compras/TabCompras'
+import AppHome from './Pages/AppHome'
 
 export default function App() {
   return (
     <>
-      <TabCompras />
+      <AppHome />
       <StatusBar style='light' />
     </>
   );
