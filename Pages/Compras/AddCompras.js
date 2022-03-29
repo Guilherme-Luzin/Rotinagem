@@ -24,6 +24,8 @@ export default function AddCompras({ route, navigation }) {
             Repositorio_Compras.salvarItems(listItens, id)
             .then(response => alert("Dados Salvo com sucesso"))
             .then(response => navigation.navigate("ListaCompras", listItens));
+            setDescricao('');
+            setQuantidade('');
         }
         catch(error){
             alert("Erro ao salvar item " + error);
