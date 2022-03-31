@@ -4,40 +4,30 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import Repositorio_Compras from './Repositorio_Compras'
+import Repositorio_Rotina from './Repositorio_Rotina';
 
-export default function AddCompras({ route, navigation }) {
+export default function AddRotina({ route, navigation }) {
     const id = route.params ? route.params.id : '';
-    const [descricao, setDescricao] = useState('');
-    const [quantidade, setQuantidade] = useState('');
-    const [unidadeMedida, setUnidadeMedida] = useState('');
+    const [afazer, setAfazer] = useState('');
 
     useEffect(() => {
         if(!route.params) return;
-        setDescricao(route.params.descricao);
-        setQuantidade(route.params.quantidade.toString());
-        setUnidadeMedida(route.params.unidadeMedida);
+        setAfazer(route.params.afazer);
     }, [route])
 
-    function handleDescriptionChange(descricao){ setDescricao(descricao); } 
-    function handleQuantityChange(quantidade){ setQuantidade(quantidade); }
-    function handleUnityChange(unidadeMedida){ setUnidadeMedida(unidadeMedida); }
+    function handleAfazerChange(afazer){ setAfazer(afazer); } 
     function handleClearPress(){
-        setDescricao('');
-        setQuantidade('');
-        setUnidadeMedida('');
-        navigation.navigate("AddCompras");
+        setAfazer('');
+        navigation.navigate("AddRotina");
     }
     async function handleButtonPress(){ 
         try{
-            const listItens = {descricao, quantidade: parseInt(quantidade), unidadeMedida};
-            Repositorio_Compras.salvarItems(listItens, id)
+            const listAfazer = {afazer};
+            Repositorio_Rotina.salvarRotina(listAfazer, id)
             .then(response => alert("Dados Salvo com sucesso"))
-            .then(response => navigation.navigate("AddCompras"))
-            .then(response => navigation.navigate("ListaCompras", listItens));
-            setDescricao('');
-            setQuantidade('');
-            setUnidadeMedida('');
+            .then(response => navigation.navigate("AddRotina"))
+            .then(response => navigation.navigate("ListaRotina", listAfazer));
+            setAfazer('');
         }
         catch(error){
             alert("Erro ao salvar item " + error);
@@ -48,27 +38,14 @@ export default function AddCompras({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>Cadastro de Item</Text>
+        <Text style={styles.title}>Cadastro de Rotina</Text>
         <View style={styles.inputContainer}> 
             <TextInput 
-                onChangeText={handleDescriptionChange}
+                onChangeText={handleAfazerChange}
                 style={styles.input} 
-                placeholder="Nome do item"
+                placeholder="Nome da Atividade"
                 clearButtonMode="always"
-                value={descricao} /> 
-            <TextInput 
-                onChangeText={handleQuantityChange}
-                style={styles.input}  
-                placeholder="Quantidade necessária" 
-                keyboardType={'numeric'}
-                clearButtonMode="always"
-                value={quantidade} />
-            <TextInput 
-            onChangeText={handleUnityChange}
-            style={styles.input}
-            placeholder="Unidade de Medida: Kg, und..."
-            clearButtonMode='always'
-            value={unidadeMedida} /> 
+                value={afazer} /> 
             <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                 <View style={styles.buttonContainer}> 
                     <Icon name="save" size={22} color="white" />
