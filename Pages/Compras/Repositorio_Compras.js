@@ -14,7 +14,7 @@ async function salvarItems(listaDeItems, id){
     return AsyncStorage.setItem('items', JSON.stringify(itemsSalvos));
 }
 
-function getAll(){
+async function getAll(){
     return AsyncStorage.getItem('items')
         .then(response => {
             if(response)

@@ -2,27 +2,26 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
-import Repositorio_Compras from './Repositorio_Compras';
+import Repositorio_Rotina from './Repositorio_Rotina';
 
-import Itens from './Itens';
+import Rotina from './Rotina';
 
-export default function ListaCompras({ route, navigation }) {
+export default function ListaRotina({ route, navigation }) {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-      Repositorio_Compras.getAll().then(items => setItems(items));
+      Repositorio_Rotina.getAll().then(items => setItems(items));
     }, [route]);
-    
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
-            <Text style={styles.title}>Lista de Compras</Text>
+            <Text style={styles.title}>Lista de Rotina</Text>
             <ScrollView 
               style={styles.scrollContainer}
               contentContainerStyle={styles.itemsContainer}>
                 { 
                   items.map(item => {
-                    return <Itens key={item.id} id={item.id} item={`${item.descricao} = ${item.quantidade} ${item.unidadeMedida} `} navigation={navigation} />
+                    return <Rotina key={item.id} id={item.id} item={`${item.afazer}`} navigation={navigation} />
                 }) }
             </ScrollView>
         </View>
