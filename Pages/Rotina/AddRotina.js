@@ -23,11 +23,17 @@ export default function AddRotina({ route, navigation }) {
     async function handleButtonPress(){ 
         try{
             const listAfazer = {afazer};
-            Repositorio_Rotina.salvarRotina(listAfazer, id)
-            .then(response => alert("Dados Salvo com sucesso"))
-            .then(response => navigation.navigate("AddRotina"))
-            .then(response => navigation.navigate("ListaRotina", listAfazer));
-            setAfazer('');
+            if(listAfazer.afazer != ''){
+                Repositorio_Rotina.salvarRotina(listAfazer, id)
+                .then(response => alert("Dados Salvo com sucesso"))
+                .then(response => navigation.navigate("AddRotina"))
+                .then(response => navigation.navigate("ListaRotina", listAfazer));
+                setAfazer('');
+            }
+            else{
+                alert('Preencha o nome da atividade');
+            }
+            
         }
         catch(error){
             alert("Erro ao salvar item " + error);
