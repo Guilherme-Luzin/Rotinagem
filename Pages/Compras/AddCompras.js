@@ -45,7 +45,6 @@ export default function AddCompras({ route, navigation }) {
                     alert('Insira o nome do item');
                 }
                 else if(listItens.quantidade == ''){
-                    if(listItens.quantidade)
                     alert('Insira a quantidade do item');
                 }
                 else if(listItens.unidadeMedida == ''){
