@@ -30,14 +30,29 @@ export default function AddCompras({ route, navigation }) {
     }
     async function handleButtonPress(){ 
         try{
-            const listItens = {descricao, quantidade: parseInt(quantidade), unidadeMedida};
-            Repositorio_Compras.salvarItems(listItens, id)
-            .then(response => alert("Dados Salvo com sucesso"))
-            .then(response => navigation.navigate("AddCompras"))
-            .then(response => navigation.navigate("ListaCompras", listItens));
-            setDescricao('');
-            setQuantidade('');
-            setUnidadeMedida('');
+            const listItens = {descricao, quantidade, unidadeMedida};
+            if(listItens.descricao != '' && listItens.quantidade != '' && listItens.unidadeMedida != ''){
+                Repositorio_Compras.salvarItems(listItens, id)
+                .then(response => alert("Dados Salvo com sucesso"))
+                .then(response => navigation.navigate("AddCompras"))
+                .then(response => navigation.navigate("ListaCompras", listItens));
+                setDescricao('');
+                setQuantidade('');
+                setUnidadeMedida('');
+            }
+            else{
+                if(listItens.descricao == ''){
+                    alert('Insira o nome do item');
+                }
+                else if(listItens.quantidade == ''){
+                    if(listItens.quantidade)
+                    alert('Insira a quantidade do item');
+                }
+                else if(listItens.unidadeMedida == ''){
+                    alert('Insira a unidade de medida do item');
+                }
+            }
+            
         }
         catch(error){
             alert("Erro ao salvar item " + error);
@@ -60,7 +75,7 @@ export default function AddCompras({ route, navigation }) {
                 onChangeText={handleQuantityChange}
                 style={styles.input}  
                 placeholder="Quantidade necessária" 
-                keyboardType={'numeric'}
+                keyboardType={'number-pad'}
                 clearButtonMode="always"
                 value={quantidade} />
             <TextInput 
