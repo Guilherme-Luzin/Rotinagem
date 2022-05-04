@@ -9,6 +9,7 @@ import Itens from './Itens';
 export default function ListaCompras({ route, navigation }) {
     const [items, setItems] = useState([]);
 
+    //Pegando todos os itens do repositório e retornando na tela
     useEffect(() => {
       Repositorio_Compras.getAll().then(items => setItems(items));
     }, [route]);

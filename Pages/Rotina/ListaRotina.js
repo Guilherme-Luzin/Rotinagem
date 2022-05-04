@@ -9,6 +9,7 @@ import Rotina from './Rotina';
 export default function ListaRotina({ route, navigation }) {
     const [items, setItems] = useState([]);
 
+    //Pegando todos os itens do repositório e retornando na tela
     useEffect(() => {
       Repositorio_Rotina.getAll().then(items => setItems(items));
     }, [route]);
@@ -21,7 +22,7 @@ export default function ListaRotina({ route, navigation }) {
               contentContainerStyle={styles.itemsContainer}>
                 { 
                   items.map(item => {
-                    return <Rotina key={item.id} id={item.id} item={`${item.afazer}`} navigation={navigation} />
+                    return <Rotina key={item.id} id={item.id} item={`${item.afazer} - ${JSON.stringify(item.hora)}`} navigation={navigation} />
                 }) }
             </ScrollView>
         </View>

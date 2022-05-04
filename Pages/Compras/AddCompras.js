@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import {Picker} from '@react-native-picker/picker';
 
 import Repositorio_Compras from './Repositorio_Compras'
 
@@ -11,6 +12,15 @@ export default function AddCompras({ route, navigation }) {
     const [descricao, setDescricao] = useState('');
     const [quantidade, setQuantidade] = useState('');
     const [unidadeMedida, setUnidadeMedida] = useState('');
+    const medida = [
+        { label: 'Und', value: 'Und', color: 'black' },
+        { label: 'Kg', value: 'Kg', color: 'black' },
+        { label: 'g', value: 'g', color: 'black' },
+        { label: 'Lt', value: 'Lt', color: 'black'},
+        { label: 'ml', value: 'ml', color: 'black'}
+      ];
+     
+      const placeholder = { label:'Selecione a unidade de medida', value: null, color: 'black'};
 
     useEffect(() => {
         if(!route.params) return;
@@ -31,7 +41,9 @@ export default function AddCompras({ route, navigation }) {
     async function handleButtonPress(){ 
         try{
             const listItens = {descricao, quantidade, unidadeMedida};
-            if(listItens.descricao != '' && listItens.quantidade != '' && listItens.unidadeMedida != ''){
+            if(listItens.descricao != '' &&
+             listItens.quantidade != '' && listItens.quantidade != '0' && 
+             listItens.unidadeMedida != ''){
                 Repositorio_Compras.salvarItems(listItens, id)
                 .then(response => alert("Dados Salvo com sucesso"))
                 .then(response => navigation.navigate("AddCompras"))
@@ -44,8 +56,8 @@ export default function AddCompras({ route, navigation }) {
                 if(listItens.descricao == ''){
                     alert('Insira o nome do item');
                 }
-                else if(listItens.quantidade == ''){
-                    alert('Insira a quantidade do item');
+                else if(listItens.quantidade == '' || listItens.quantidade == '0'){
+                    alert('A quantidade do item não pode ser zero(0)');
                 }
                 else if(listItens.unidadeMedida == ''){
                     alert('Insira a unidade de medida do item');
@@ -77,12 +89,17 @@ export default function AddCompras({ route, navigation }) {
                 keyboardType={'number-pad'}
                 clearButtonMode="always"
                 value={quantidade} />
-            <TextInput 
-            onChangeText={handleUnityChange}
-            style={styles.input}
-            placeholder="Unidade de Medida: Kg, und..."
-            clearButtonMode='always'
-            value={unidadeMedida} /> 
+            <Picker selectedValue={unidadeMedida}
+            onValueChange={(itemValue, itemIndex) =>
+            setUnidadeMedida(itemValue)} 
+            style={pickerSelectStyle.pickerStyle}>
+                <Picker.Item label='Selecione a unidade de Media' value='' />
+                <Picker.Item label='Und' value='Und'/>
+                <Picker.Item label='Kg' value='Kg'/>
+                <Picker.Item label='g' value='g'/>
+                <Picker.Item label='Lt' value='Lt'/>
+                <Picker.Item label='ml' value='ml'/>
+            </Picker>
             <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                 <View style={styles.buttonContainer}> 
                     <Icon name="save" size={22} color="white" />
@@ -126,7 +143,7 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 10,
         height: 60,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         borderRadius: 10,
         paddingHorizontal: 24,
         fontSize: 16,
@@ -167,4 +184,16 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
       }
+  });
+
+  const pickerSelectStyle = StyleSheet.create({
+    pickerStyle: {
+        marginTop: 10,
+        height: 60,
+        backgroundColor: '#f5f5f5',
+        borderRadius: 10,
+        paddingHorizontal: 24,
+        fontSize: 16,
+        alignItems: 'stretch',
+    }
   });

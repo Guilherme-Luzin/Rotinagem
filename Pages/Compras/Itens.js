@@ -5,11 +5,13 @@ import { Feather as Icon } from '@expo/vector-icons';
 import Repositorio_Compras from './Repositorio_Compras';
 
 export default function Itens(props){
+    //Função do botão Editar
     async function handleEditPress(){ 
         const item = await Repositorio_Compras.getItem(props.id);
         props.navigation.navigate("AddCompras", item);
     }
 
+    //Função do botão deletar
     function handleDeletePress(){
         Alert.alert(
             "Atenção",
@@ -33,6 +35,7 @@ export default function Itens(props){
         );
     }
 
+    //Construção da View
     return (
         <View style={styles.container}>
           <Text style={styles.textItem}>{props.item}</Text>
