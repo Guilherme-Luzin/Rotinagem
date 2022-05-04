@@ -5,20 +5,20 @@ import { Feather as Icon } from '@expo/vector-icons';
 import Repositorio_Rotina from './Repositorio_Rotina';
 
 export default function Rotina(props){
+    //Função do botão Editar
     async function handleEditPress(){ 
         const afazer = await Repositorio_Rotina.getRotina(props.id);
         props.navigation.navigate("AddRotina", afazer);
     }
 
+    //Função do botão deletar
     function handleDeletePress(){
         Alert.alert(
             "Atenção",
             "Você tem certeza que deseja deletar este item?",
             [
                 {
-                    text: "Não",
-                    onPress: () => console.log("Cancelado"),
-                    style: "cancel"
+                    text: "Não"
                 },
                 {
                     text: "Sim",
@@ -33,6 +33,7 @@ export default function Rotina(props){
         );
     }
 
+    //Construção da View
     return (
         <View style={styles.container}>
           <Text style={styles.textItem}>{props.item}</Text>

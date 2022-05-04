@@ -3,27 +3,56 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
 
 export default function AddRotina({ route, navigation }) {
     const id = route.params ? route.params.id : '';
+    
+    //Campos necessários para o cadastro
     const [afazer, setAfazer] = useState('');
+    const [hora, setHora] = useState(new Date());
+    const [show, setShow] = useState(false);
+    const [texto, setTexto] = useState('00:00');
 
+    //Tratando o horário
+    const onChange = (envent, selectedTime) => {
+        const teste = selectedTime;
+        setShow(false)
+        const tempTime = new Date(teste);
+        const horario = tempTime.getUTCHours();
+        const minutos = tempTime.getUTCMinutes();
+        const horaFormatada = `${horario}:${minutos}`;
+        setHora(horaFormatada);
+        setTexto(horaFormatada);
+    };
+    const showTimePicker = () => {
+        setShow(true)
+    };
+    
+    //Trazendo Parametros
     useEffect(() => {
         if(!route.params) return;
         setAfazer(route.params.afazer);
+        setHora(route.params.hora);
+        setTexto(route.params.hora);
     }, [route])
 
-    function handleAfazerChange(afazer){ setAfazer(afazer); } 
+    //função para salvar atividade e para limpar campos
+    function handleAfazerChange(afazer){ setAfazer(afazer); }
     function handleClearPress(){
         setAfazer('');
+        setHora('');
+        setTexto('00:00')
         navigation.navigate("AddRotina");
     }
+
+    //Função para chamar o repositório
     async function handleButtonPress(){ 
         try{
-            const listAfazer = {afazer};
-            if(listAfazer.afazer != ''){
+            const listAfazer = {afazer, hora};
+            if(listAfazer.afazer != '' && listAfazer.hora != ''){
                 Repositorio_Rotina.salvarRotina(listAfazer, id)
                 .then(response => alert("Dados Salvo com sucesso"))
                 .then(response => navigation.navigate("AddRotina"))
@@ -31,7 +60,10 @@ export default function AddRotina({ route, navigation }) {
                 setAfazer('');
             }
             else{
-                alert('Preencha o nome da atividade');
+                if(listAfazer.afazer == '')
+                    alert('Preencha o nome da atividade');
+                else if(listAfazer.hora == '' || listAfazer.hora == 'NaN:NaN')
+                alert('Preencha o horário da Atividade');
             }
             
         }
@@ -42,6 +74,7 @@ export default function AddRotina({ route, navigation }) {
         
     }
 
+    //Retorno da view
   return (
     <View style={styles.container}>
         <Text style={styles.title}>Cadastro de Rotina</Text>
@@ -51,7 +84,21 @@ export default function AddRotina({ route, navigation }) {
                 style={styles.input} 
                 placeholder="Nome da Atividade"
                 clearButtonMode="always"
-                value={afazer} /> 
+                value={afazer} />
+                <Text style={styles.inputTime} onPress={showTimePicker}>
+                    <Icon name="clock" size={24} color="black" />
+                    {texto}
+                </Text>
+                {show && (
+                    <DateTimePicker
+                        testId="dateTimePicker"
+                        value={new Date}
+                        mode={'time'}
+                        is24Hour={false}
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
             <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                 <View style={styles.buttonContainer}> 
                     <Icon name="save" size={22} color="white" />
@@ -63,7 +110,7 @@ export default function AddRotina({ route, navigation }) {
                     <MaterialIcons name="cancel" size={22} color="white" />
                     <Text style={styles.buttonText}>Limpar</Text> 
                 </View>
-            </TouchableOpacity> 
+            </TouchableOpacity>
         </View>
         <StatusBar style="light" />
     </View>
@@ -87,19 +134,28 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: '90%',
         padding: 20,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
         alignItems: 'stretch',
         backgroundColor: '#fff'
     },
     input: {
         marginTop: 10,
         height: 60,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         borderRadius: 10,
         paddingHorizontal: 24,
         fontSize: 16,
         alignItems: 'stretch'
+    },
+    inputTime: {
+        marginTop: 10,
+        height: 60,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        paddingHorizontal: 100,
+        fontSize: 20,
+        alignItems: 'center'
     },
     button: {
         marginTop: 10,
@@ -123,6 +179,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 20,
+        shadowOpacity: 20,
+        shadowColor: '#ccc',
+    },
+    buttonTime: {
+        marginTop: 5,
+        height: 35,
+        backgroundColor: 'black',
+        paddingHorizontal: 24,
+        fontSize: 10,
         elevation: 20,
         shadowOpacity: 20,
         shadowColor: '#ccc',

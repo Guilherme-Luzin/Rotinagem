@@ -12,6 +12,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 function TabCompras() {
     return (
+        //Definições do estilo das abas
         <NavigationContainer>
             <Navigator
                 screenOptions={{
