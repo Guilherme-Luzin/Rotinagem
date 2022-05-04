@@ -21,8 +21,8 @@ export default function AddRotina({ route, navigation }) {
         const teste = selectedTime;
         setShow(false)
         const tempTime = new Date(teste);
-        const horario = tempTime.getUTCHours();
-        const minutos = tempTime.getUTCMinutes();
+        const horario = tempTime.getHours();
+        const minutos = tempTime.getMinutes();
         const horaFormatada = `${horario}:${minutos}`;
         setHora(horaFormatada);
         setTexto(horaFormatada);
