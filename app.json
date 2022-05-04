@@ -21,7 +21,7 @@
     },
     "android": {
       "package": "com.guilherme.agendacomprasrotina",
-      "versionCode": 0.2,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
