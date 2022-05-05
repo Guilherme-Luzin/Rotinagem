@@ -12,7 +12,7 @@ export default function AddRotina({ route, navigation }) {
     
     //Campos necessários para o cadastro
     const [afazer, setAfazer] = useState('');
-    const [hora, setHora] = useState(new Date());
+    const [hora, setHora] = useState('00:00');
     const [show, setShow] = useState(false);
     const [texto, setTexto] = useState('00:00');
 
@@ -24,11 +24,17 @@ export default function AddRotina({ route, navigation }) {
         const horario = tempTime.getHours();
         const minutos = tempTime.getMinutes();
         const horaFormatada = `${horario}:${minutos}`;
-        setHora(horaFormatada);
-        setTexto(horaFormatada);
+        if(horaFormatada == 'NaN:NaN'){
+            setTexto('00:00');
+            setHora('00:00');
+        }
+        else{
+            setHora(horaFormatada);
+            setTexto(horaFormatada);
+        }
     };
     const showTimePicker = () => {
-        setShow(true)
+        setShow(true);
     };
     
     //Trazendo Parametros
@@ -44,7 +50,7 @@ export default function AddRotina({ route, navigation }) {
     function handleClearPress(){
         setAfazer('');
         setHora('');
-        setTexto('00:00')
+        setTexto('00:00');
         navigation.navigate("AddRotina");
     }
 
@@ -58,6 +64,8 @@ export default function AddRotina({ route, navigation }) {
                 .then(response => navigation.navigate("AddRotina"))
                 .then(response => navigation.navigate("ListaRotina", listAfazer));
                 setAfazer('');
+                setHora('');
+                setTexto('00:00');
             }
             else{
                 if(listAfazer.afazer == '')
