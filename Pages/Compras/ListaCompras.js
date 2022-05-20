@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import Repositorio_Compras from './Repositorio_Compras';
-
 import Itens from './Itens';
+import { styles } from './Styles';
 
 export default function ListaCompras({ route, navigation }) {
     const [items, setItems] = useState([]);
@@ -15,12 +15,12 @@ export default function ListaCompras({ route, navigation }) {
     }, [route]);
     
     return (
-        <View style={styles.container}>
+        <View style={styles.containerListaItens}>
             <StatusBar style="light" />
-            <Text style={styles.title}>Lista de Compras</Text>
+            <Text style={styles.titleListaItens}>Lista de Compras</Text>
             <ScrollView 
-              style={styles.scrollContainer}
-              contentContainerStyle={styles.itemsContainer}>
+              style={styles.scrollContainerListaItens}
+              contentContainerStyle={styles.itemsContainerListaItens}>
                 { 
                   items.map(item => {
                     return <Itens key={item.id} id={item.id} item={`${item.descricao} = ${item.quantidade} ${item.unidadeMedida} `} navigation={navigation} />
@@ -29,31 +29,3 @@ export default function ListaCompras({ route, navigation }) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#262926',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 50,
-    marginBottom: 20
-  },
-  scrollContainer: {
-    flex: 1,
-    width: '90%'
-  },
-  itemsContainer: {
-    marginTop: 10,
-    padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    alignItems: 'stretch',
-    backgroundColor: '#fff'
-  },
-});

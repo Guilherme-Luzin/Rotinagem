@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
 
 import Repositorio_Compras from './Repositorio_Compras'
+import { styles, pickerSelectStyle } from './Styles';
 
 export default function AddCompras({ route, navigation }) {
     const id = route.params ? route.params.id : '';
@@ -117,83 +118,3 @@ export default function AddCompras({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#262926',
-        alignItems: 'center',
-    },
-    title: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 50,
-    },
-    inputContainer: {
-        flex: 1,
-        marginTop: 30,
-        width: '90%',
-        padding: 20,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        alignItems: 'stretch',
-        backgroundColor: '#fff'
-    },
-    input: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'stretch'
-    },
-    button: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: 'blue',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 20,
-        shadowOpacity: 20,
-        shadowColor: '#ccc',
-    },
-    buttonCancel: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: 'red',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 20,
-        shadowOpacity: 20,
-        shadowColor: '#ccc',
-    },
-    buttonContainer: {
-        flexDirection: "row"
-      },
-      buttonText: {
-        marginLeft: 10,
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: 'bold',
-      }
-  });
-
-  const pickerSelectStyle = StyleSheet.create({
-    pickerStyle: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'stretch',
-    }
-  });
