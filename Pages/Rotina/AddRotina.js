@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
+import styles from './Style';
 
 export default function AddRotina({ route, navigation }) {
     const id = route.params ? route.params.id : '';
@@ -102,7 +103,7 @@ export default function AddRotina({ route, navigation }) {
                         testId="dateTimePicker"
                         value={new Date}
                         mode={'time'}
-                        is24Hour={false}
+                        is24Hour={true}
                         display="default"
                         onChange={onChange}
                     />
@@ -124,90 +125,3 @@ export default function AddRotina({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#262926',
-        alignItems: 'center',
-    },
-    title: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 50,
-    },
-    inputContainer: {
-        flex: 1,
-        marginTop: 30,
-        width: '90%',
-        padding: 20,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        alignItems: 'stretch',
-        backgroundColor: '#fff'
-    },
-    input: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'stretch'
-    },
-    inputTime: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        paddingHorizontal: 100,
-        fontSize: 20,
-        alignItems: 'center'
-    },
-    button: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: 'blue',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 20,
-        shadowOpacity: 20,
-        shadowColor: '#ccc',
-    },
-    buttonCancel: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: 'red',
-        borderRadius: 10,
-        paddingHorizontal: 24,
-        fontSize: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 20,
-        shadowOpacity: 20,
-        shadowColor: '#ccc',
-    },
-    buttonTime: {
-        marginTop: 5,
-        height: 35,
-        backgroundColor: 'black',
-        paddingHorizontal: 24,
-        fontSize: 10,
-        elevation: 20,
-        shadowOpacity: 20,
-        shadowColor: '#ccc',
-    },
-    buttonContainer: {
-        flexDirection: "row"
-      },
-      buttonText: {
-        marginLeft: 10,
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: 'bold',
-      }
-  });
