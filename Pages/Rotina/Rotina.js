@@ -4,6 +4,7 @@ import { Feather as Icon } from '@expo/vector-icons';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
 import styles from './Style';
+import { cancelNotification } from '../Notification/Notification';
 
 export default function Rotina(props){
     //Função do botão Editar
