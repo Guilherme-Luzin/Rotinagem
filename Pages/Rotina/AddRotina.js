@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
 import styles from './Style';
+import { cancelNotification, schedulePushNotification } from '../Notification/Notification';
 
 export default function AddRotina({ route, navigation }) {
     const id = route.params ? route.params.id : '';
@@ -16,6 +17,7 @@ export default function AddRotina({ route, navigation }) {
     const [hora, setHora] = useState('00:00');
     const [show, setShow] = useState(false);
     const [texto, setTexto] = useState('00:00');
+    const [notificationId, setNotificationId] = useState('');
 
     //Tratando o horário
     const onChange = (envent, selectedTime) => {
@@ -44,6 +46,7 @@ export default function AddRotina({ route, navigation }) {
         setAfazer(route.params.afazer);
         setHora(route.params.hora);
         setTexto(route.params.hora);
+        setNotificationId(route.params.res);
     }, [route])
 
     //função para salvar atividade e para limpar campos
@@ -52,26 +55,35 @@ export default function AddRotina({ route, navigation }) {
         setAfazer('');
         setHora('');
         setTexto('00:00');
+        setNotificationId('');
         navigation.navigate("AddRotina");
     }
 
     //Função para chamar o repositório
     async function handleButtonPress(){ 
         try{
-            const listAfazer = {afazer, hora};
-            if(listAfazer.afazer != '' && listAfazer.hora != ''){
-                Repositorio_Rotina.salvarRotina(listAfazer, id)
-                .then(response => alert("Dados Salvo com sucesso"))
-                .then(response => navigation.navigate("AddRotina"))
-                .then(response => navigation.navigate("ListaRotina", listAfazer));
-                setAfazer('');
-                setHora('');
-                setTexto('00:00');
+            const horas = hora.split(':')[0]
+            const minuto = hora.split(':')[1]
+            if(afazer != '' && hora != ''){
+                if(notificationId !== '')
+                    cancelNotification(notificationId);
+
+                schedulePushNotification(afazer, parseInt(horas), parseInt(minuto))
+                .then(res => {
+                    const listAfazer = {afazer, hora, res};
+                    Repositorio_Rotina.salvarRotina(listAfazer, id, res)
+                    .then(response => alert("Dados Salvo com sucesso"))
+                    .then(response => navigation.navigate("AddRotina"))
+                    .then(response => navigation.navigate("ListaRotina", listAfazer));
+                    setAfazer('');
+                    setHora('');
+                    setTexto('00:00');
+                })
             }
             else{
-                if(listAfazer.afazer == '')
+                if(afazer == '')
                     alert('Preencha o nome da atividade');
-                else if(listAfazer.hora == '' || listAfazer.hora == 'NaN:NaN')
+                else if(hora == '' || hora == 'NaN:NaN')
                 alert('Preencha o horário da Atividade');
             }
             
