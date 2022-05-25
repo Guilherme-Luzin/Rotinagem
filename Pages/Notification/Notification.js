@@ -62,7 +62,6 @@ export async function schedulePushNotification( afazer, horas, minutos ) {
         repeats: true,
       },
     });
-    console.log("id da notificação agendada",notifId)
     return notifId;
 }
 
@@ -103,5 +102,4 @@ async function registerForPushNotificationsAsync() {
   
   export async function cancelNotification(notifId){
     await Notifications.cancelScheduledNotificationAsync(notifId);
-    console.log(`Notificação cancelada com sucesso`);
 }

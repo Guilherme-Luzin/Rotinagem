@@ -14,7 +14,8 @@ export default function Rotina(props){
     }
 
     //Função do botão deletar
-    function handleDeletePress(){
+    async function handleDeletePress(){
+        const afazer = await Repositorio_Rotina.getRotina(props.id);
         Alert.alert(
             "Atenção",
             "Você tem certeza que deseja deletar este item?",
@@ -25,6 +26,7 @@ export default function Rotina(props){
                 {
                     text: "Sim",
                     onPress: () => {
+                                    cancelNotification(afazer.res);
                                     Repositorio_Rotina.deletarRotina(props.id)
                                     .then(alert("Item deletado com sucesso"))
                                     .then(response => props.navigation.navigate("ListaRotina", {id: props.id}));
