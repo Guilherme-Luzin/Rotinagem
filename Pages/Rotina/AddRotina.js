@@ -71,7 +71,7 @@ export default function AddRotina({ route, navigation }) {
                 schedulePushNotification(afazer, parseInt(horas), parseInt(minuto))
                 .then(res => {
                     const listAfazer = {afazer, hora, res};
-                    Repositorio_Rotina.salvarRotina(listAfazer, id, res)
+                    Repositorio_Rotina.salvarRotina(listAfazer, id)
                     .then(response => alert("Dados Salvo com sucesso"))
                     .then(response => navigation.navigate("AddRotina"))
                     .then(response => navigation.navigate("ListaRotina", listAfazer));
