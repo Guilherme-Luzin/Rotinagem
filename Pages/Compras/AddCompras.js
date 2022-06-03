@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
+import { HelperText, TextInput } from 'react-native-paper';
 
 import Repositorio_Compras from './Repositorio_Compras'
 import { styles, pickerSelectStyle } from './Styles';
@@ -13,15 +14,6 @@ export default function AddCompras({ route, navigation }) {
     const [descricao, setDescricao] = useState('');
     const [quantidade, setQuantidade] = useState('');
     const [unidadeMedida, setUnidadeMedida] = useState('');
-    const medida = [
-        { label: 'Und', value: 'Und', color: 'black' },
-        { label: 'Kg', value: 'Kg', color: 'black' },
-        { label: 'g', value: 'g', color: 'black' },
-        { label: 'Lt', value: 'Lt', color: 'black'},
-        { label: 'ml', value: 'ml', color: 'black'}
-      ];
-     
-      const placeholder = { label:'Selecione a unidade de medida', value: null, color: 'black'};
 
     useEffect(() => {
         if(!route.params) return;
@@ -29,6 +21,11 @@ export default function AddCompras({ route, navigation }) {
         setQuantidade(route.params.quantidade.toString());
         setUnidadeMedida(route.params.unidadeMedida);
     }, [route])
+
+    //Verificando Valores Inseridos
+    const DescricaoComErro = () => {
+        return descricao.includes('@');
+    }
 
     function handleDescriptionChange(descricao){ setDescricao(descricao); } 
     function handleQuantityChange(quantidade){ setQuantidade(quantidade); }
@@ -78,21 +75,28 @@ export default function AddCompras({ route, navigation }) {
         <Text style={styles.title}>Cadastro de Item</Text>
         <View style={styles.inputContainer}> 
             <TextInput 
+                mode='outlined'
+                activeOutlineColor='blue'
                 onChangeText={handleDescriptionChange}
                 style={styles.input} 
-                placeholder="Nome do item"
+                label="Nome do item"
                 clearButtonMode="always"
-                value={descricao} /> 
-            <TextInput 
+                value={descricao} />
+                <HelperText type='error' visible={DescricaoComErro()}>
+                    Informe um nome válido
+                </HelperText>
+            <TextInput
+                mode='outlined'
+                activeOutlineColor='blue'
                 onChangeText={handleQuantityChange}
                 style={styles.input}  
-                placeholder="Quantidade necessária" 
-                keyboardType={'number-pad'}
+                label="Quantidade necessária" 
+                keyboardType='number-pad'
                 clearButtonMode="always"
                 value={quantidade} />
             <Picker selectedValue={unidadeMedida}
             onValueChange={(itemValue, itemIndex) =>
-            setUnidadeMedida(itemValue)} 
+            setUnidadeMedida(itemValue)}
             style={pickerSelectStyle.pickerStyle}>
                 <Picker.Item label='Selecione a unidade de Media' value='' />
                 <Picker.Item label='Und' value='Und'/>

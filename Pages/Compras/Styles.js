@@ -14,16 +14,14 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flex: 1,
-        marginTop: 30,
+        marginTop: 10,
         width: '90%',
         padding: 20,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        alignItems: 'stretch',
         backgroundColor: '#fff'
     },
     input: {
-        marginTop: 10,
         height: 60,
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
