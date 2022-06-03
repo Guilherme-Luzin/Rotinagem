@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { HelperText, TextInput } from 'react-native-paper';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
 import styles from './Style';
@@ -48,6 +49,11 @@ export default function AddRotina({ route, navigation }) {
         setTexto(route.params.hora);
         setNotificationId(route.params.res);
     }, [route])
+
+    //Verificando Valores Inseridos
+    const AfazerComErro = () => {
+        return afazer.includes('@');
+    }
 
     //função para salvar atividade e para limpar campos
     function handleAfazerChange(afazer){ setAfazer(afazer); }
@@ -101,11 +107,16 @@ export default function AddRotina({ route, navigation }) {
         <Text style={styles.title}>Cadastro de Rotina</Text>
         <View style={styles.inputContainer}> 
             <TextInput 
+                mode="outlined"
+                activeOutlineColor='blue'
                 onChangeText={handleAfazerChange}
-                style={styles.input} 
-                placeholder="Nome da Atividade"
+                style={styles.input}
+                label="Nome da Atividade"
                 clearButtonMode="always"
                 value={afazer} />
+                <HelperText type='error' visible={AfazerComErro()}>
+                    Nome da atividade é inválido!
+                </HelperText>
                 <Text style={styles.inputTime} onPress={showTimePicker}>
                     <Icon name="clock" size={24} color="black" />
                     {texto}
