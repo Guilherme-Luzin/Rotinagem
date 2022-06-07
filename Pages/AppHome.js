@@ -16,9 +16,9 @@ function TabCompras() {
         <NavigationContainer>
             <Navigator
                 screenOptions={{
-                    tabBarActiveTintColor: "#000000",
-                    tabBarInactiveTintColor: "#fff",
-                    tabBarActiveBackgroundColor: "#fff",
+                    tabBarActiveTintColor: "#fff",
+                    tabBarInactiveTintColor: "#696868",
+                    tabBarActiveBackgroundColor: "#000000",
                     tabBarInactiveBackgroundColor: "#000000",
                     tabBarLabelStyle: {display: "flex"},
                     tabBarIconStyle: { display: "flex" },
