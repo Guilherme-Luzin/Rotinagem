@@ -41,6 +41,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
+    "react-native-week-selector": "^0.0.6",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

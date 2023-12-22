@@ -3,8 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
-import ListaCompras from './Compras/ListaCompras';
-import AddCompras from './Compras/AddCompras';
 import AddRotina from './Rotina/AddRotina';
 import ListaRotina from './Rotina/ListaRotina';
 
@@ -34,14 +32,6 @@ function TabCompras() {
                     options={{tabBarIcon: ({size, color}) => (
                             <Icon name="book-open" size={size} color={color} />
                     ), title: 'Adicionar Rotina'}}/>
-                <Screen name="AddCompras" component={AddCompras} 
-                    options={{tabBarIcon: ({size, color}) => (
-                        <Icon name="cart-plus" size={size} color={color} />
-                    ), title: 'Adicionar Item'}}/>
-                <Screen name="ListaCompras" component={ListaCompras} 
-                options={{tabBarIcon: ({size, color}) => (
-                    <Icon name="shopping-cart" size={size} color={color}/>
-                ), title: 'Lista de Compras'}} />
             </Navigator>
         </NavigationContainer>
     );

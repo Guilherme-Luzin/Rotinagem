@@ -2,14 +2,14 @@
   "project_info": {
     "project_number": "283093318898",
     "project_id": "reactrotinagen",
-    "storage_bucket": "reactrotinagen.appspot.com"
+    "storage_bucket": "reactrotinagem.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:283093318898:android:516c0b326ab6773122a46b",
         "android_client_info": {
-          "package_name": "com.gluzin.agendacomprasrotina"
+          "package_name": "com.gluzin.rotinagem"
         }
       },
       "oauth_client": [

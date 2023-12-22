@@ -36,7 +36,16 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#fff',
         borderRadius: 10,
-        paddingHorizontal: 100,
+        paddingHorizontal: 130,
+        fontSize: 20,
+        alignItems: 'center'
+    },
+    inputDate: {
+        marginTop: 10,
+        height: 60,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        paddingHorizontal: 35,
         fontSize: 20,
         alignItems: 'center'
     },
