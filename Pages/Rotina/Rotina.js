@@ -10,7 +10,6 @@ export default function Rotina(props){
     //Função do botão Editar
     async function handleEditPress(){ 
         const afazer = await Repositorio_Rotina.getRotina(props.id);
-        console.log(afazer)
         props.navigation.navigate("AddRotina", afazer);
     }
 

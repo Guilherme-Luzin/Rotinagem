@@ -30,7 +30,6 @@ export default function Notification() {
   
       responseListener.current =
         Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log(response);
         });
   
       return () => {
@@ -46,7 +45,7 @@ export default function Notification() {
     );
   }
 
-export async function schedulePushNotification( afazer, horas, minutos ) {
+export async function schedulePushNotification( afazer, horas, minutos, dias ) {
     const notifId = await Notifications.scheduleNotificationAsync({
       content: {
         title: "Rotina agendada",
@@ -80,7 +79,6 @@ async function registerForPushNotificationsAsync() {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
     } else {
       alert("É necessário um dispositivo físico para receber a notificação");
     }

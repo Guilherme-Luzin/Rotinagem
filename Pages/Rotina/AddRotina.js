@@ -58,32 +58,19 @@ export default function AddRotina({ route, navigation }) {
         setHora(route.params.hora);
         setTexto(route.params.hora);
         setNotificationId(route.params.res);
-        // preencherDias(route.params.dias)
+        preencherDias(route.params.dias)
     }, [route])
 
-    // const preencherDias = (dias) => {
-    //     if(dias.includes('Segunda-Feira')){
+    const preencherDias = (dias) => {
+        if(dias[0]?.includes("Todos os dias")){
+            setChecked(true)
+            return;
+        }
 
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    //     if(dias.includes('Segunda-Feira')){
-            
-    //     }
-    // }
+        setChecked(false)
+        setSelectedDays(dias)
+        return;
+    }
 
     //Verificando Valores Inseridos
     const AfazerComErro = () => {
@@ -105,14 +92,14 @@ export default function AddRotina({ route, navigation }) {
     //Função para chamar o repositório
     async function handleButtonPress(){ 
         try{
-            const dias = checked ? 'Todos os dias' : diasParaMostrarNaTela
+            const dias = checked ? {0: 'Todos os dias'} : selectedDays
             const horas = hora.split(':')[0]
             const minuto = hora.split(':')[1]
             if(afazer != '' && hora != ''){
                 if(notificationId !== '')
                     cancelNotification(notificationId);
 
-                schedulePushNotification(afazer, parseInt(horas), parseInt(minuto))
+                schedulePushNotification(afazer, parseInt(horas), parseInt(minuto), dias)
                 .then(res => {
                     const listAfazer = {afazer, hora, dias, res};
                     Repositorio_Rotina.salvarRotina(listAfazer, id)

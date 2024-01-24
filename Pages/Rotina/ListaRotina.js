@@ -23,7 +23,7 @@ export default function ListaRotina({ route, navigation }) {
               contentContainerStyle={styles.itemsContainerListaRotina}>
                 { 
                   items.map(item => {
-                    return <Rotina key={item.id} id={item.id} item={`${item.afazer} - ${item.hora} - ${item.dias}`} navigation={navigation} />
+                    return <Rotina key={item.id} id={item.id} item={`${item.afazer} - ${item.hora} - ${Object.values(item.dias)}`} navigation={navigation} />
                 }) }
             </ScrollView>
         </View>
