@@ -5,6 +5,7 @@ import { Feather as Icon } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { HelperText, TextInput } from 'react-native-paper';
+import { CheckBox } from '@rneui/themed';
 
 import Repositorio_Rotina from './Repositorio_Rotina';
 import styles from './Style';
@@ -20,7 +21,14 @@ export default function AddRotina({ route, navigation }) {
     const [texto, setTexto] = useState('00:00');
     const [notificationId, setNotificationId] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedDays, setSelectedDays] = useState([]);
+    const [selectedDays, setSelectedDays] = useState({});
+    const [checked, setChecked] = React.useState(true);
+    const [diasParaMostrarNaTela, setdiasParaMostrarNaTela] = useState('');
+
+    const toggleCheckbox = () => {
+        setChecked(!checked);
+        limparSelecaoDeDias();
+    }
 
     //Tratando o horário
     const onChange = (envent, selectedTime) => {
@@ -50,7 +58,32 @@ export default function AddRotina({ route, navigation }) {
         setHora(route.params.hora);
         setTexto(route.params.hora);
         setNotificationId(route.params.res);
+        // preencherDias(route.params.dias)
     }, [route])
+
+    // const preencherDias = (dias) => {
+    //     if(dias.includes('Segunda-Feira')){
+
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    //     if(dias.includes('Segunda-Feira')){
+            
+    //     }
+    // }
 
     //Verificando Valores Inseridos
     const AfazerComErro = () => {
@@ -65,11 +98,14 @@ export default function AddRotina({ route, navigation }) {
         setTexto('00:00');
         setNotificationId('');
         navigation.navigate("AddRotina");
+        limparSelecaoDeDias();
+        setChecked(true);
     }
 
     //Função para chamar o repositório
     async function handleButtonPress(){ 
         try{
+            const dias = checked ? 'Todos os dias' : diasParaMostrarNaTela
             const horas = hora.split(':')[0]
             const minuto = hora.split(':')[1]
             if(afazer != '' && hora != ''){
@@ -78,7 +114,7 @@ export default function AddRotina({ route, navigation }) {
 
                 schedulePushNotification(afazer, parseInt(horas), parseInt(minuto))
                 .then(res => {
-                    const listAfazer = {afazer, hora, res};
+                    const listAfazer = {afazer, hora, dias, res};
                     Repositorio_Rotina.salvarRotina(listAfazer, id)
                     .then(response => alert("Dados Salvo com sucesso"))
                     .then(response => navigation.navigate("AddRotina"))
@@ -86,6 +122,8 @@ export default function AddRotina({ route, navigation }) {
                     setAfazer('');
                     setHora('');
                     setTexto('00:00');
+                    limparSelecaoDeDias();
+                    setChecked(true);
                 })
             }
             else{
@@ -102,34 +140,40 @@ export default function AddRotina({ route, navigation }) {
         }
         
     }
+    
+      const isDaySelected = (position) => {
+        return selectedDays.hasOwnProperty(position);
+      };
 
-    const onChangeDate = (event, selectedDate) => {
-        // Implemente a lógica necessária para manipular a seleção da data
+      const limparSelecaoDeDias = () => {
+        return setSelectedDays({});
       };
     
-      const isDaySelected = (day) => {
-        return selectedDays.includes(day);
+      const toggleDaySelection = (day, position) => {
+        var novoDicionario = selectedDays
+        const updatedDays = isDaySelected(position)
+          ? delete novoDicionario[position]
+          : novoDicionario[position] = day;
+
+        setSelectedDays(novoDicionario);
+        atualizarTextoDaTela()
       };
     
-      const toggleDaySelection = (day) => {
-        const updatedDays = isDaySelected(day)
-          ? selectedDays.filter((selectedDay) => selectedDay !== day)
-          : [...selectedDays, day];
-        setSelectedDays(updatedDays);
-      };
-    
-      const openModal = () => {
-        setModalVisible(true);
-      };
-    
-      const closeModal = () => {
-        setModalVisible(false);
-      };
-    
-      const saveSelectedDays = () => {
-        // Implemente a lógica para salvar os dias selecionados
-        closeModal();
-      };
+      const atualizarTextoDaTela = () => {
+        var novosDias = ''
+        var diasSelecionado = Object.values(selectedDays)
+        if(diasSelecionado.length == 0){
+            return setdiasParaMostrarNaTela(novosDias)
+        }
+
+        diasSelecionado.forEach(x => {
+            if(novosDias.length > 0)
+                novosDias += `, ${x}`
+            else
+            novosDias += `${x}`
+        })
+        setdiasParaMostrarNaTela(novosDias)
+      }
 
     //Retorno da view
   return (
@@ -161,62 +205,51 @@ export default function AddRotina({ route, navigation }) {
                         onChange={onChange}
                     />
                 )}
-                <Text style={styles.inputDate} onPress={openModal}>
-                    <Icon name="calendar" size={24} color="black" />
-                    Selecionar dias da semana
-                </Text>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={modalVisible}
-                    onRequestClose={closeModal}
-                >
-                    <View>
-                    <Text>Selecione os dias da semana:</Text>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Segunda-Feira')}>
-                        <Text style={{ color: isDaySelected('Segunda-Feira') ? 'blue' : 'black' }}>
-                        Segunda-Feira
+                <CheckBox
+                    title='Todos os dias'
+                    checked={checked}
+                    onPress={toggleCheckbox}
+                    iconType="material-community"
+                    checkedIcon="checkbox-outline"
+                    uncheckedIcon={'checkbox-blank-outline'}
+                />
+                <View style={[styles.inputContainerWeekDays2, { display: checked ? 'none' : 'flex' }]}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Segunda-Feira', 1)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(1) ? 'blue' : 'black' }]}>
+                        S
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Terça-Feira')}>
-                        <Text style={{ color: isDaySelected('Terça-Feira') ? 'blue' : 'black' }}>
-                        Terça-Feira
+                    <TouchableOpacity onPress={() => toggleDaySelection('Terça-Feira', 2)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(2) ? 'blue' : 'black' }]}>
+                        T
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Quarta-Feira')}>
-                        <Text style={{ color: isDaySelected('Quarta-Feira') ? 'blue' : 'black' }}>
-                        Quarta-Feira
+                    <TouchableOpacity onPress={() => toggleDaySelection('Quarta-Feira', 3)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(3) ? 'blue' : 'black' }]}>
+                        Q
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Quinta-Feira')}>
-                        <Text style={{ color: isDaySelected('Quinta-Feira') ? 'blue' : 'black' }}>
-                        Quinta-Feira
+                    <TouchableOpacity onPress={() => toggleDaySelection('Quinta-Feira', 4)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(4) ? 'blue' : 'black' }]}>
+                        Q
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Sexta-Feira')}>
-                        <Text style={{ color: isDaySelected('Sexta-Feira') ? 'blue' : 'black' }}>
-                        Sexta-Feira
+                    <TouchableOpacity onPress={() => toggleDaySelection('Sexta-Feira', 5)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(5) ? 'blue' : 'black' }]}>
+                        S
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Sábado')}>
-                        <Text style={{ color: isDaySelected('Sábado') ? 'blue' : 'black' }}>
-                        Sábado
+                    <TouchableOpacity onPress={() => toggleDaySelection('Sábado', 6)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(6) ? 'blue' : 'black' }]}>
+                        S
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Domingo')}>
-                        <Text style={{ color: isDaySelected('Domingo') ? 'blue' : 'black' }}>
-                        Domingo
+                    <TouchableOpacity onPress={() => toggleDaySelection('Domingo', 7)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(7) ? 'blue' : 'black' }]}>
+                        D
                         </Text>
-                    </TouchableOpacity>
-                    {/* Adicione botões para os outros dias da semana aqui */}
-                    <TouchableOpacity onPress={saveSelectedDays}>
-                        <Text>Salvar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={closeModal}>
-                        <Text>Cancelar</Text>
                     </TouchableOpacity>
                     </View>
-                </Modal>
             <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                 <View style={styles.buttonContainer}> 
                     <Icon name="save" size={22} color="white" />

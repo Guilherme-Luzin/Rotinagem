@@ -41,12 +41,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputDate: {
-        marginTop: 10,
-        height: 60,
-        backgroundColor: '#fff',
+        paddingTop: 12,
         borderRadius: 10,
-        paddingHorizontal: 35,
-        fontSize: 20,
+        paddingHorizontal: 10,
+        fontSize: 15,
         alignItems: 'center'
     },
     button: {
@@ -159,7 +157,69 @@ const styles = StyleSheet.create({
     },
     textItemRotina: {
         fontSize: 20,
-    }
+    },
+    buttonTextWeekDays: {
+      marginBottom: 10,
+      marginTop: 10,
+      alignSelf: "center",
+      fontSize: 18,
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    titleWeekDays: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        alignSelf: "center"
+    },
+    inputContainerWeekDays: {
+        flex: 1,
+        width: '100%',
+        alignItems: 'stretch',
+        backgroundColor: '#262926'
+    },
+    buttonWeekDays: {
+        marginTop: 20,
+        height: 60,
+        backgroundColor: 'blue',
+        borderRadius: 10,
+        paddingHorizontal: 24,
+        fontSize: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 20,
+        shadowOpacity: 20,
+        shadowColor: '#ccc',
+        width: '70%',
+        alignSelf: "center"
+    },
+    buttonCancelWeekDays: {
+        marginTop: 10,
+        height: 60,
+        backgroundColor: 'red',
+        borderRadius: 10,
+        paddingHorizontal: 24,
+        fontSize: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 20,
+        shadowOpacity: 20,
+        shadowColor: '#ccc',
+        width: '70%',
+        alignSelf: "center"
+    },
+    inputContainerWeekDays2: {
+        flexDirection: "row",
+        alignItems: 'stretch',
+    },
+    buttonTextWeekDays2: {
+        marginBottom: 10,
+        marginRight: 15,
+        marginLeft: 22,
+        alignSelf: "center",
+        fontSize: 20,
+        fontWeight: 'bold',
+      },
   });
 
   export default styles;
