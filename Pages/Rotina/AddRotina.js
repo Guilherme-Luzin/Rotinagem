@@ -19,7 +19,7 @@ export default function AddRotina({ route, navigation }) {
     const [hora, setHora] = useState('00:00');
     const [show, setShow] = useState(false);
     const [texto, setTexto] = useState('00:00');
-    const [notificationId, setNotificationId] = useState('');
+    const [notificationId, setNotificationId] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedDays, setSelectedDays] = useState({});
     const [checked, setChecked] = React.useState(true);
@@ -83,7 +83,7 @@ export default function AddRotina({ route, navigation }) {
         setRotina('');
         setHora('');
         setTexto('00:00');
-        setNotificationId('');
+        setNotificationId([]);
         navigation.navigate("AddRotina");
         limparSelecaoDeDias();
         setChecked(true);
@@ -96,8 +96,11 @@ export default function AddRotina({ route, navigation }) {
             const horas = hora.split(':')[0]
             const minuto = hora.split(':')[1]
             if(rotina != '' && hora != ''){
-                if(notificationId !== '')
-                    cancelNotification(notificationId);
+                if(notificationId != null && notificationId?.length !== 0){
+                    notificationId.forEach(x => {
+                        cancelNotification(x);
+                    })
+                }
 
                 schedulePushNotification(rotina, parseInt(horas), parseInt(minuto), dias)
                 .then(res => {

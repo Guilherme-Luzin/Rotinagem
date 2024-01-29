@@ -46,22 +46,56 @@ export default function Notification() {
   }
 
 export async function schedulePushNotification( rotina, horas, minutos, dias ) {
-    const notifId = await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Rotina agendada",
+  let listaDeDias = Object.keys(dias)
+
+  if(listaDeDias[0] == 0){
+    return await agendaNotificacaoTodosOsDias(rotina, horas, minutos)
+  }
+
+  return await agendaNotificacaoDiasEspecificos(rotina, horas, minutos, listaDeDias)
+}
+
+export async function agendaNotificacaoTodosOsDias( rotina, horas, minutos ) {
+  let idsDasNotificacoes = []
+  const notifId = await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Rotina agendada",
+      subtitle: "Mensagem de Rotinagem",
+      body: `Não se esqueça, você definiu ${rotina} as ${horas}:${minutos}`,
+      vibrate: true | 1000,
+      priority: AndroidNotificationPriority.HIGH,
+      // sound: 'default',
+    },
+    trigger: {
+      hour: horas,
+      minute: minutos,
+      repeats: true,
+    },
+  });
+  idsDasNotificacoes.push(notifId)
+  return idsDasNotificacoes;
+}
+
+export async function agendaNotificacaoDiasEspecificos( rotina, horas, minutos, dias  ) {
+  const notificationOptions = {
+    title: "Rotina agendada",
         subtitle: "Mensagem de Rotinagem",
         body: `Não se esqueça, você definiu ${rotina} as ${horas}:${minutos}`,
         vibrate: true | 1000,
         priority: AndroidNotificationPriority.HIGH,
-        // sound: 'default',
-      },
-      trigger: {
-        hour: horas,
-        minute: minutos,
-        repeats: true,
-      },
-    });
-    return notifId;
+  }
+  const scheduleArray = dias.map(dia => ({
+    content: notificationOptions,
+    trigger: {
+      weekday: parseInt(dia),
+      hour: horas,
+      minute: minutos,
+      repeats: true,
+    },
+  }));
+
+  const notifId = await Promise.all(scheduleArray.map(notification => Notifications.scheduleNotificationAsync(notification)));
+  return notifId;
 }
 
 async function registerForPushNotificationsAsync() {

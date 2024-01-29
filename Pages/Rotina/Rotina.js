@@ -26,7 +26,9 @@ export default function Rotina(props){
                 {
                     text: "Sim",
                     onPress: () => {
-                                    cancelNotification(rotina.res);
+                                    rotina.res.forEach(idNotificacao => {
+                                        cancelNotification(idNotificacao);
+                                    });
                                     Repositorio_Rotina.deletarRotina(props.id)
                                     .then(alert("Item deletado com sucesso"))
                                     .then(response => props.navigation.navigate("ListaRotina", {id: props.id}));
