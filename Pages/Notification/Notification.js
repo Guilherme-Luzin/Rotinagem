@@ -45,12 +45,12 @@ export default function Notification() {
     );
   }
 
-export async function schedulePushNotification( afazer, horas, minutos, dias ) {
+export async function schedulePushNotification( rotina, horas, minutos, dias ) {
     const notifId = await Notifications.scheduleNotificationAsync({
       content: {
         title: "Rotina agendada",
         subtitle: "Mensagem de Rotinagem",
-        body: `Não se esqueça, você definiu ${afazer} as ${horas}:${minutos}`,
+        body: `Não se esqueça, você definiu ${rotina} as ${horas}:${minutos}`,
         vibrate: true | 1000,
         priority: AndroidNotificationPriority.HIGH,
         // sound: 'default',

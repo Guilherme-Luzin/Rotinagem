@@ -1,21 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function salvarRotina(listaDeAfazeres, id){
-    listaDeAfazeres.id = id ? id : new Date().getTime();
-    const afazeresSalvos = await getAll();
+async function salvarRotina(listaDeRotinas, id){
+    listaDeRotinas.id = id ? id : new Date().getTime();
+    const rotinasSalvas = await getAll();
 
     if(id){
-        const index = await afazeresSalvos.findIndex(afazer => afazer.id == id);
-        afazeresSalvos[index] = listaDeAfazeres;
+        const index = await rotinasSalvas.findIndex(rotina => rotina.id == id);
+        rotinasSalvas[index] = listaDeRotinas;
     }
     else
-    afazeresSalvos.push(listaDeAfazeres);
+    rotinasSalvas.push(listaDeRotinas);
     
-    return AsyncStorage.setItem('afazeres', JSON.stringify(afazeresSalvos));
+    return AsyncStorage.setItem('rotinas', JSON.stringify(rotinasSalvas));
 }
 
 async function getAll(){
-    return AsyncStorage.getItem('afazeres')
+    return AsyncStorage.getItem('rotinas')
         .then(response => {
             if(response)
                 return Promise.resolve(JSON.parse(response))
@@ -25,15 +25,15 @@ async function getAll(){
 }
 
 async function getRotina(id){
-    const afazeresSalvos = await getAll();
-    return afazeresSalvos.find(afazer => afazer.id == id);
+    const rotinasSalvas = await getAll();
+    return rotinasSalvas.find(rotina => rotina.id == id);
 }
 
 async function deletarRotina(id){
-    let afazeresSalvos = await getAll();
-    const index = await afazeresSalvos.findIndex(afazer => afazer.id == id);
-    afazeresSalvos.splice(index, 1);
-    return AsyncStorage.setItem('afazeres', JSON.stringify(afazeresSalvos));
+    let rotinasSalvas = await getAll();
+    const index = await rotinasSalvas.findIndex(rotina => rotina.id == id);
+    rotinasSalvas.splice(index, 1);
+    return AsyncStorage.setItem('rotinas', JSON.stringify(rotinasSalvas));
 }
 
 module.exports = {

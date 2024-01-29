@@ -15,7 +15,7 @@ export default function AddRotina({ route, navigation }) {
     const id = route.params ? route.params.id : '';
     
     //Campos necessários para o cadastro
-    const [afazer, setAfazer] = useState('');
+    const [rotina, setRotina] = useState('');
     const [hora, setHora] = useState('00:00');
     const [show, setShow] = useState(false);
     const [texto, setTexto] = useState('00:00');
@@ -54,7 +54,7 @@ export default function AddRotina({ route, navigation }) {
     //Trazendo Parametros
     useEffect(() => {
         if(!route.params) return;
-        setAfazer(route.params.afazer);
+        setRotina(route.params.rotina);
         setHora(route.params.hora);
         setTexto(route.params.hora);
         setNotificationId(route.params.res);
@@ -73,14 +73,14 @@ export default function AddRotina({ route, navigation }) {
     }
 
     //Verificando Valores Inseridos
-    const AfazerComErro = () => {
-        return afazer.includes('@');
+    const RotinaComErro = () => {
+        return rotina.includes('@');
     }
 
     //função para salvar atividade e para limpar campos
-    function handleAfazerChange(afazer){ setAfazer(afazer); }
+    function handleRotinaChange(rotina){ setRotina(rotina); }
     function handleClearPress(){
-        setAfazer('');
+        setRotina('');
         setHora('');
         setTexto('00:00');
         setNotificationId('');
@@ -95,18 +95,18 @@ export default function AddRotina({ route, navigation }) {
             const dias = checked ? {0: 'Todos os dias'} : selectedDays
             const horas = hora.split(':')[0]
             const minuto = hora.split(':')[1]
-            if(afazer != '' && hora != ''){
+            if(rotina != '' && hora != ''){
                 if(notificationId !== '')
                     cancelNotification(notificationId);
 
-                schedulePushNotification(afazer, parseInt(horas), parseInt(minuto), dias)
+                schedulePushNotification(rotina, parseInt(horas), parseInt(minuto), dias)
                 .then(res => {
-                    const listAfazer = {afazer, hora, dias, res};
-                    Repositorio_Rotina.salvarRotina(listAfazer, id)
+                    const listaDeRotina = {rotina: rotina, hora, dias, res};
+                    Repositorio_Rotina.salvarRotina(listaDeRotina, id)
                     .then(response => alert("Dados Salvo com sucesso"))
                     .then(response => navigation.navigate("AddRotina"))
-                    .then(response => navigation.navigate("ListaRotina", listAfazer));
-                    setAfazer('');
+                    .then(response => navigation.navigate("ListaRotina", listaDeRotina));
+                    setRotina('');
                     setHora('');
                     setTexto('00:00');
                     limparSelecaoDeDias();
@@ -114,7 +114,7 @@ export default function AddRotina({ route, navigation }) {
                 })
             }
             else{
-                if(afazer == '')
+                if(rotina == '')
                     alert('Preencha o nome da atividade');
                 else if(hora == '' || hora == 'NaN:NaN')
                 alert('Preencha o horário da Atividade');
@@ -170,12 +170,12 @@ export default function AddRotina({ route, navigation }) {
             <TextInput 
                 mode="outlined"
                 activeOutlineColor='blue'
-                onChangeText={handleAfazerChange}
+                onChangeText={handleRotinaChange}
                 style={styles.input}
                 label="Nome da Atividade"
                 clearButtonMode="always"
-                value={afazer} />
-                <HelperText type='error' visible={AfazerComErro()}>
+                value={rotina} />
+                <HelperText type='error' visible={RotinaComErro()}>
                     Nome da atividade é inválido!
                 </HelperText>
                 <Text style={styles.inputTime} onPress={showTimePicker}>

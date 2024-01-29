@@ -9,13 +9,13 @@ import { cancelNotification } from '../Notification/Notification';
 export default function Rotina(props){
     //Função do botão Editar
     async function handleEditPress(){ 
-        const afazer = await Repositorio_Rotina.getRotina(props.id);
-        props.navigation.navigate("AddRotina", afazer);
+        const rotina = await Repositorio_Rotina.getRotina(props.id);
+        props.navigation.navigate("AddRotina", rotina);
     }
 
     //Função do botão deletar
     async function handleDeletePress(){
-        const afazer = await Repositorio_Rotina.getRotina(props.id);
+        const rotina = await Repositorio_Rotina.getRotina(props.id);
         Alert.alert(
             "Atenção",
             "Você tem certeza que deseja deletar este item?",
@@ -26,7 +26,7 @@ export default function Rotina(props){
                 {
                     text: "Sim",
                     onPress: () => {
-                                    cancelNotification(afazer.res);
+                                    cancelNotification(rotina.res);
                                     Repositorio_Rotina.deletarRotina(props.id)
                                     .then(alert("Item deletado com sucesso"))
                                     .then(response => props.navigation.navigate("ListaRotina", {id: props.id}));
