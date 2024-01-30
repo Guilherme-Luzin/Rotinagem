@@ -87,7 +87,7 @@ export async function agendaNotificacaoDiasEspecificos( rotina, horas, minutos, 
   const scheduleArray = dias.map(dia => ({
     content: notificationOptions,
     trigger: {
-      weekday: parseInt(dia),
+      weekday: parseInt(dia) - 1,
       hour: horas,
       minute: minutos,
       repeats: true,
