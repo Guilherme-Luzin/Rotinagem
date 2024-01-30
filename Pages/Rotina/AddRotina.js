@@ -204,38 +204,38 @@ export default function AddRotina({ route, navigation }) {
                     uncheckedIcon={'checkbox-blank-outline'}
                 />
                 <View style={[styles.inputContainerWeekDays2, { display: checked ? 'none' : 'flex' }]}>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Segunda-Feira', 1)}>
-                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(1) ? 'blue' : 'black' }]}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Segunda-Feira', 2)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(2) ? 'blue' : 'black' }]}>
                         S
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Terça-Feira', 2)}>
-                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(2) ? 'blue' : 'black' }]}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Terça-Feira', 3)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(3) ? 'blue' : 'black' }]}>
                         T
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Quarta-Feira', 3)}>
-                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(3) ? 'blue' : 'black' }]}>
-                        Q
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Quinta-Feira', 4)}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Quarta-Feira', 4)}>
                         <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(4) ? 'blue' : 'black' }]}>
                         Q
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Sexta-Feira', 5)}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Quinta-Feira', 5)}>
                         <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(5) ? 'blue' : 'black' }]}>
-                        S
+                        Q
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Sábado', 6)}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Sexta-Feira', 6)}>
                         <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(6) ? 'blue' : 'black' }]}>
                         S
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleDaySelection('Domingo', 7)}>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Sábado', 7)}>
                         <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(7) ? 'blue' : 'black' }]}>
+                        S
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toggleDaySelection('Domingo', 1)}>
+                        <Text style={[styles.buttonTextWeekDays2, { color: isDaySelected(1) ? 'blue' : 'black' }]}>
                         D
                         </Text>
                     </TouchableOpacity>
